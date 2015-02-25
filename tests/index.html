@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>ObjectFinder Tests by QUnit</title>
+    <link rel='stylesheet' href='qunit-1.16.0.css'>
+</head>
+<body>
+    <div id='qunit'></div>
+    <div id='qunit-fixture'></div>
+    <script src='qunit-1.16.0.js'></script>
+    <script src='../lib/ObjectXPathFinder.js'></script>
+    <script>
+        // http://beta.json-generator.com/
+        var randomTestData =  {
+            '_id': '5485c06dd4398111b4e7f9a4',
+            'index': 0,
+            'guid': 'e36cefa8-7512-4f67-83af-15add63bdeed',
+            'isActive': true,
+            'balance': '$3,636.27',
+            'picture': 'http://placehold.it/32x32',
+            'age': 31,
+            'eyeColor': 'blue',
+            'name': {
+                'first': 'Levy',
+                'last': 'Crane'
+            },
+            'company': 'COASH',
+            'params' : {
+                'geo' : {
+                    'latitude': {
+                        intValue : 71,
+                        valueFloat : 71.247969
+                    },
+                    'longitude': {
+                        intValue : -154,
+                        valueFloat : -154.010783
+                    }
+                }
+            },
+            'friends' : {
+                'lastVisited' : {
+                    '1418106121263' : {
+                        'name': 'Mcpherson Bradshaw'
+                    },
+                    '1418106144583' : {
+                        'name': 'Rosanne Whitney'
+                    },
+                    '1418106152278' : {
+                        'name': 'Dillon Morton'
+                    }
+                },
+                'lastJoin' : {
+                    '1418106177574' : {
+                        'name' : 'Kevin Star'
+                    },
+                    '1418106206078' : {
+                        'name' : 'Mr. Smith',
+                        'blocked' : true
+                    }
+                }
+            },
+            'greeting': 'Hello, Levy! You have 5 unread messages.',
+            'favoriteFruit': 'apple'
+        };
+
+        console.info(randomTestData);
+
+        QUnit.test('Find randomTestData.name.first value. Path is "name/first"', function  getFirstNameOfRandomTestData(assert) {
+            var value = ObjectXPathFinder(randomTestData, 'name/first');
+            assert.equal(value[0], 'Levy', 'We expect value it will return the string "Levy"');
+        });
+
+        QUnit.test('Find all names values of randomTestData object - //name', function  getAllNamesValuesOfRandomTestData(assert) {
+            var value = ObjectXPathFinder(randomTestData, '//name'),
+                expectString = '[{"first":"Levy","last":"Crane"},"Mcpherson Bradshaw","Rosanne Whitney","Dillon Morton","Kevin Star","Mr. Smith"]';
+            assert.equal(JSON.stringify(value), expectString , 'We expect value it will return the string ' + expectString);
+        });
+
+        QUnit.test('Find latitude in params  - params//latitude', function  getLatitudeFromParamsOfRandomTestData(assert) {
+            var value = ObjectXPathFinder(randomTestData, 'params//latitude'),
+                expectString = '[{"intValue":71,"valueFloat":71.247969}]';
+            assert.equal(JSON.stringify(value), expectString , 'We expect value it will return the string ' + expectString);
+        });
+
+        QUnit.test('Find integer latitude in params (deep path)  - params//latitude//intValue', function  getLatitudeFromParamsOfRandomTestData(assert) {
+            var value = ObjectXPathFinder(randomTestData, 'params//latitude//intValue');
+            assert.equal(value, 71, 'We expect value it will return the number 71');
+        });
+
+        QUnit.test('Find integer latitude in params (child path)  - params//latitude/intValue', function  getLatitudeFromParamsOfRandomTestData(assert) {
+            var value = ObjectXPathFinder(randomTestData, 'params//latitude/intValue');
+            assert.equal(value, 71, 'We expect value it will return the number 71');
+        });
+
+        QUnit.test('Find all of randomTestData  - *', function  getAllOfRandomTestData(assert) {
+            var value = ObjectXPathFinder(randomTestData, '*');
+            console.log('*', '\n', value);
+            assert.ok(value, 'Return any value');
+        });
+
+        QUnit.test('Find all children of randomTestData  - /*', function  getAllChildrenOfRandomTestData(assert) {
+            var value = ObjectXPathFinder(randomTestData, '/*');
+            console.log('/*', '\n', value);
+            assert.ok(value, 'Return any value');
+        });
+
+        QUnit.test('Find all descenders of randomTestData  - */*', function  getAllDescendersOfRandomTestData(assert) {
+            var value = ObjectXPathFinder(randomTestData, '*/*');
+            console.log('*/*', '\n', value);
+            assert.ok(value, 'Return any value');
+        });
+
+        QUnit.test('Find all descenders of randomTestData  - ///////, it equals //*', function  getSlashesRootOfRandomTestData(assert) {
+            var value = ObjectXPathFinder(randomTestData, '///////');
+            console.log('//*', '\n', value);
+            assert.ok(value, 'Return any value');
+        });
+
+    </script>
+</body>
+</html>
