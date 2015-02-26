@@ -95,25 +95,21 @@
 
         QUnit.test('Find all of randomTestData  - *', function  getAllOfRandomTestData(assert) {
             var value = ObjectXPathFinder(randomTestData, '*');
-            console.log('*', '\n', value);
             assert.ok(value, 'Return any value');
         });
 
         QUnit.test('Find all children of randomTestData  - /*', function  getAllChildrenOfRandomTestData(assert) {
             var value = ObjectXPathFinder(randomTestData, '/*');
-            console.log('/*', '\n', value);
             assert.ok(value, 'Return any value');
         });
 
         QUnit.test('Find all descenders of randomTestData  - */*', function  getAllDescendersOfRandomTestData(assert) {
             var value = ObjectXPathFinder(randomTestData, '*/*');
-            console.log('*/*', '\n', value);
             assert.ok(value, 'Return any value');
         });
 
         QUnit.test('Find all descenders of randomTestData  - ///////, it equals //*', function  getSlashesRootOfRandomTestData(assert) {
             var value = ObjectXPathFinder(randomTestData, '///////');
-            console.log('//*', '\n', value);
             assert.ok(value, 'Return any value');
         });
 

@@ -1,4 +1,4 @@
-# Object-XPath-Finder (beta)
+# Object-XPath-Finder
 Javascript library for using simple xPath for search in javascript objects
 
 ### XPath usage:
