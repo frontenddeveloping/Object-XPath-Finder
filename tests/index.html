@@ -64,8 +64,6 @@
             'favoriteFruit': 'apple'
         };
 
-        console.info(randomTestData);
-
         QUnit.test('Find randomTestData.name.first value. Path is "name/first"', function  getFirstNameOfRandomTestData(assert) {
             var value = ObjectXPathFinder(randomTestData, 'name/first');
             assert.equal(value[0], 'Levy', 'We expect value it will return the string "Levy"');
